@@ -9,13 +9,24 @@
     <hr />
     <p>格式很乱，代码瞎写，嘿嘿</p>
     <button @click="getServices">获取用户列表</button>
-    <ul v-if="list.length > 0" class="user">
-      <li v-for="(item, index) in list" :key="index">
-        <h3>姓名：{{ item.username }}</h3>
-        <p>描述：{{ item.content }}</p>
-        <a @click="handleDelete(index)">删除</a>
-      </li>
-    </ul>
+    <table class="user" v-if="list.length > 0">
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>登记时间</th>
+          <th>内容</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in list" :key="index">
+          <td>{{ item.username }}</td>
+          <td>{{ item.time }}</td>
+          <td>{{ item.content }}</td>
+          <td><a class="operate" @click="handleDelete(index)">删除</a></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -43,8 +54,7 @@ export default {
   },
   methods: {
     goToAbout() {
-      //query 传参刷新页面参数页面存在，params 会丢失传参
-      this.$router.push({ name: 'About', query: { id: '123' } })
+      this.$router.push({ name: 'About', params: { id: '123' } })
     },
     setAll() {
       this.setProducts(2)
@@ -67,8 +77,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .user {
-  li {
-    border-bottom: 1px solid #aaa;
+  width: 80%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  tr,
+  td,
+  th {
+    border: 1px solid #ddd;
   }
   a {
     color: royalblue;
